@@ -1,6 +1,13 @@
 #include <iostream>
+#include "Controller.hpp"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+
+    // TODO: hiérarchie de Personnes, de contraintes
+
+    Controller controller;
+
+    controller.showMenu();
+
     return EXIT_SUCCESS;
 }

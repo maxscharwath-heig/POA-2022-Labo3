@@ -16,11 +16,11 @@ protected:
 
     virtual ~Container() = default;
 
-    void add(const Person& person);
+    void add(Person* person);
 
 private:
     const std::string name;
-    std::list<Person> onBoard;
+    std::list<Person*> onBoard;
 };
 
 
