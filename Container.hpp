@@ -5,18 +5,22 @@
 #include <list>
 #include "Person.hpp"
 
-/**
- *
- */
+class Container;
+
+std::ostream& operator<<(std::ostream& os, const Container& container);
+
 class Container {
 public:
+    virtual ~Container() = default;
+
+    virtual std::ostream& toStream(std::ostream& os) const = 0;
+
+    void add(Person* person);
+
+    const std::string& getName() const;
 
 protected:
     explicit Container(const std::string& name);
-
-    virtual ~Container() = default;
-
-    void add(Person* person);
 
 private:
     const std::string name;

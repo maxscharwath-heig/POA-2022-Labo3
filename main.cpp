@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Controller.hpp"
 
 int main() {

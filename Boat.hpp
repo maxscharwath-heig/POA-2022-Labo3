@@ -10,6 +10,8 @@ public:
     explicit Boat(const std::string& name, Bank* bank);
     void setCurrentBank(Bank* bank);
 
+    std::ostream& toStream(std::ostream &os) const override;
+
 private:
     Bank* currentBank;
 };
