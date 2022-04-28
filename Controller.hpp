@@ -19,6 +19,7 @@ public:
     void display();
 
     void nextTurn();
+    void getInput();
 
 private:
     unsigned turn;
@@ -26,6 +27,8 @@ private:
     Bank* rightBank;
     Boat* boat;
     BoatSide boatSide;
+
+    void reset();
 };
 
 

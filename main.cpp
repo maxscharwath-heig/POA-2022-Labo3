@@ -7,6 +7,9 @@ int main() {
     Controller controller;
     controller.showMenu();
     controller.display();
+    while(true){
+        controller.getInput();
+    }
 
 
     return EXIT_SUCCESS;

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "Controller.hpp"
 
 Controller::Controller() {
@@ -27,8 +28,8 @@ void Controller::showMenu() {
 
 void Controller::display() {
     std::cout << *leftBank << std::endl <<
-    "=========================================================="
-    << std::endl;
+              "=========================================================="
+              << std::endl;
     if (boatSide == LEFT) {
         std::cout << *boat;
     }
@@ -41,6 +42,56 @@ void Controller::display() {
 
 void Controller::nextTurn() {
     ++turn;
+}
+
+void Controller::getInput() {
+    bool invalid;
+    do {
+        invalid = false;
+        std::cout<< std::endl<< turn << ">\t";
+        char command;
+        std::cin >> command;
+        switch (command) {
+            case 'p':
+                display();
+                break;
+            case 'q':
+                exit(0);
+                break;
+            case 'r':
+                reset();
+                break;
+            case 'm':
+                std::cout << "Deplacement du bateau" << std::endl;
+                nextTurn();
+                break;
+            case 'e': {
+                std::string name;
+                std::cin >> name;
+                std::cout << "Embarquement de " << name << std::endl;
+            }
+                break;
+            case 'd': {
+                std::string name;
+                std::cin >> name;
+                std::cout << "Debarquement de " << name << std::endl;
+            }
+                break;
+            default:
+                std::cout << "Commande invalide" << std::endl;
+                invalid = true;
+                break;
+        }
+        if (std::cin.fail()) {
+            invalid = true;
+        }
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    } while (invalid);
+}
+
+void Controller::reset() {
+    std::cout << "Reinitialisation du jeu" << std::endl;
 }
 
 
