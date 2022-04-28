@@ -26,15 +26,17 @@ void Controller::showMenu() {
 }
 
 void Controller::display() {
-    std::cout << *leftBank << std::endl <<
-    "=========================================================="
-    << std::endl;
+    std::cout << *leftBank << std::endl;
     if (boatSide == LEFT) {
-        std::cout << *boat;
+        std::cout << *boat  << std::endl;
+    } else {
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
+    std::cout << "==========================================================";
     if (boatSide == RIGHT) {
-        std::cout << *boat;
+        std::cout << *boat << std::endl;
+    } else {
+        std::cout << std::endl;
     }
     std::cout << std::endl << *rightBank;
 }
