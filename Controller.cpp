@@ -6,6 +6,7 @@ Controller::Controller() {
     rightBank = new Bank("Droite");
     boat = new Boat("Bateau", leftBank);
     turn = 0;
+    boatSide = LEFT;
 }
 
 Controller::~Controller() {
@@ -25,7 +26,17 @@ void Controller::showMenu() {
 }
 
 void Controller::display() {
-
+    std::cout << *leftBank << std::endl <<
+    "=========================================================="
+    << std::endl;
+    if (boatSide == LEFT) {
+        std::cout << *boat;
+    }
+    std::cout << std::endl;
+    if (boatSide == RIGHT) {
+        std::cout << *boat;
+    }
+    std::cout << std::endl << *rightBank;
 }
 
 void Controller::nextTurn() {

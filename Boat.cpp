@@ -8,11 +8,7 @@ void Boat::setCurrentBank(Bank* bank) {
 }
 
 std::ostream& Boat::toStream(std::ostream& os) const {
-    return Container::toStream(os)
-            << "----------------------------------------------------------"
-            << getName() << "< >                                             "
-            << " ---------------------------------------------------------"
-            << std::endl;
+    return os << getName() << "< todo >";
 }
 
 
