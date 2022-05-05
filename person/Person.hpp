@@ -10,6 +10,8 @@ public:
     virtual ~Person() = default;
     virtual bool canDrive() const = 0;
 
+    std::ostream& toStream(std::ostream& os) const;
+
 protected:
     explicit Person(const std::string& name);
 
