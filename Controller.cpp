@@ -1,6 +1,10 @@
 #include <iostream>
 #include <limits>
 #include "Controller.hpp"
+#include "person/Thief.hpp"
+#include "person/Parent.hpp"
+#include "person/Child.hpp"
+#include "person/Police.hpp"
 
 Controller::Controller() {
     leftBank = new Bank("Gauche");
@@ -8,6 +12,15 @@ Controller::Controller() {
     boat = new Boat("Bateau", leftBank);
     turn = 0;
     boatSide = LEFT;
+
+    leftBank->add(new Parent("pere", MALE));
+    leftBank->add(new Parent("mere", FEMALE));
+    leftBank->add(new Child("paul", MALE));
+    leftBank->add(new Child("pierre", MALE));
+    leftBank->add(new Child("julie", FEMALE));
+    leftBank->add(new Child("jeanne", FEMALE));
+    leftBank->add(new Police("policier"));
+    leftBank->add(new Thief("voleur"));
 }
 
 Controller::~Controller() {

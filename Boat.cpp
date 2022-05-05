@@ -10,7 +10,14 @@ void Boat::setCurrentBank(Bank* bank) {
 }
 
 std::ostream& Boat::toStream(std::ostream& os) const {
-    return os << getName() << "< todo >";
+    os << getName() << "< ";
+    for (auto it = onBoard.begin(); it != onBoard.end(); ++it) {
+        (*it)->toStream(os);
+        if (it != std::prev(onBoard.end())) {
+            os << " ";
+        }
+    }
+    return os << " >";
 }
 
 bool Boat::isFull() {

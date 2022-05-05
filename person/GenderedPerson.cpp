@@ -5,7 +5,3 @@ GenderedPerson::GenderedPerson(const std::string& name, Gender gender): Person(n
 Gender GenderedPerson::getGender() {
     return gender;
 }
-
-bool GenderedPerson::canDrive() const {
-    return true;
-}

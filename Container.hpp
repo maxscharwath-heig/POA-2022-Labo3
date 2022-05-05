@@ -11,7 +11,7 @@ std::ostream& operator<<(std::ostream& os, const Container& container);
 
 class Container {
 public:
-    virtual ~Container() = default;
+    virtual ~Container();
 
     virtual std::ostream& toStream(std::ostream& os) const = 0;
 

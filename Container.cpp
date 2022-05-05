@@ -6,6 +6,13 @@ std::ostream& operator<<(std::ostream& os, const Container& container) {
 
 Container::Container(const std::string& name): name(name) {}
 
+Container::~Container() {
+    while(!onBoard.empty()) {
+        delete onBoard.front();
+        onBoard.pop_front();
+    }
+}
+
 void Container::add(Person* person) {
     onBoard.push_back(person);
 }
