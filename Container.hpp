@@ -3,7 +3,7 @@
 
 #include <string>
 #include <list>
-#include "Person.hpp"
+#include "person/Person.hpp"
 
 class Container;
 
@@ -22,7 +22,7 @@ public:
 protected:
     explicit Container(const std::string& name);
 
-private:
+protected:
     const std::string name;
     std::list<Person*> onBoard;
 };

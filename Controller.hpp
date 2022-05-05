@@ -19,6 +19,7 @@ public:
     void display();
 
     void nextTurn();
+
     void getInput();
 
 private:

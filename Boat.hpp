@@ -12,8 +12,11 @@ public:
 
     std::ostream& toStream(std::ostream &os) const override;
 
+    bool isFull();
+
 private:
     Bank* currentBank;
+    const static unsigned MAX_CAPACITY;
 };
 
 #endif //POA_LABO3_BOAT_HPP

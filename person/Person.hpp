@@ -8,14 +8,13 @@ class Person {
 
 public:
     virtual ~Person() = default;
-    virtual bool canDrive() = 0;
+    virtual bool canDrive() const = 0;
 
 protected:
     explicit Person(const std::string& name);
 
 private:
     const std::string name;
-
 };
 
 
