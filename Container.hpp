@@ -17,6 +17,8 @@ public:
 
     void add(Person* person);
 
+    std::list<Person*>& getPeople();
+
     const std::string& getName() const;
 
 protected:

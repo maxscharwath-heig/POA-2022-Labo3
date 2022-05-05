@@ -13,3 +13,7 @@ void Container::add(Person* person) {
 const std::string& Container::getName() const {
     return name;
 }
+
+std::list<Person*>& Container::getPeople() {
+    return onBoard;
+}
