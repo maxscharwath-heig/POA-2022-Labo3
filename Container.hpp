@@ -17,6 +17,8 @@ public:
 
     void add(Person* person);
 
+    void add(std::initializer_list<Person*> people);
+
     std::list<Person*>& getPeople();
 
     const std::string& getName() const;

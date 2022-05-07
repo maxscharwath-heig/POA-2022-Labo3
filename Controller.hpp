@@ -14,6 +14,10 @@ public:
 
     ~Controller();
 
+    Controller(const Controller&) = delete;
+
+    Controller& operator=(const Controller&) = delete;
+
     void showMenu();
 
     void display();
@@ -21,6 +25,8 @@ public:
     void nextTurn();
 
     void getInput();
+
+    void start();
 
 private:
     unsigned turn;
