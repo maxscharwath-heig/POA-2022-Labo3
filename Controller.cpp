@@ -55,7 +55,7 @@ void Controller::display() {
    else {
       std::cout << std::endl;
    }
-   std::cout << "==========================================================";
+   std::cout << "==========================================================" << std::endl; // TODO: utiliser les setfill et set width
    if (boatSide == RIGHT) {
       std::cout << *boat << std::endl;
    }
@@ -73,6 +73,7 @@ void Controller::getInput() {
    bool invalid;
    do {
       invalid = false;
+      display();
       std::cout << std::endl << turn << ">\t";
       char command;
       std::cin >> command;
@@ -89,9 +90,10 @@ void Controller::getInput() {
             break;
          case 'm':
             std::cout << "Deplacement du bateau" << std::endl;
-            validateBoatMove();
+            if (validateBoatMove()) {
+               boatSide = boatSide == LEFT ? RIGHT : LEFT;
+            }
             nextTurn();
-            boatSide = boatSide == LEFT ? RIGHT : LEFT;
             break;
          case 'e': {
             std::string name;
@@ -132,6 +134,8 @@ void Controller::getInput() {
       std::cin.clear();
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
    } while (invalid);
+
+   // TODO: determiner la fin de jeu (tous sur rive droite) et afficher le nombre de coups
 }
 
 void Controller::reset() {
@@ -140,23 +144,23 @@ void Controller::reset() {
 
 void Controller::start() {
    showMenu();
-   display();
    while (true) {
       getInput();
    }
 }
 
-std::list<Person*> Controller::getFutureState() {
-   // We generate the list of person in the boat + on the other side of the river
-   std::list<Person*> context;
-   if (boatSide == LEFT) {
-      context.splice(context.end(), rightBank->getPeople());
-   }
-   else {
-      context.splice(context.end(), leftBank->getPeople());
-   }
-   context.splice(context.end(), boat->getPeople());
-   return context;
+std::list<Person*> Controller::getFromFutureState(std::list<Person*>& list, Person* person) const {
+   std::list<Person*> state;
+   state.splice(state.end(), list);
+   state.remove(person);
+   return state;
+}
+
+std::list<Person*> Controller::getToFutureState(std::list<Person*>& list, Person* person) const {
+   std::list<Person*> state;
+   state.splice(state.end(), list);
+   state.push_back(person);
+   return state;
 }
 
 bool Controller::validatePersonMove(Container* from, Container* to, const std::string& name) {
@@ -179,16 +183,42 @@ bool Controller::validatePersonMove(Container* from, Container* to, const std::s
 
    // Check if person is in "from"
    if (std::find(peopleInFrom.begin(), peopleInFrom.end(), person) == peopleInFrom.end()) {
-      std::cout << "### " << person->getName() << " is not on " << from->getName() << std::endl;
+      std::cout << "### " << person->getName() << " n'est pas sur " << from->getName() << std::endl;
       return false;
    }
 
-   // Apply the move
-   if (to->add(person)) {
-      from->remove(person);
-   }
-   // ...
+   // NOTE: ici On travaille avec des copies pour pas changer les listes courantes
+   // TODO: A voir si ce n'est pas mieux de changer les listes courante et de rollback en cas
+   // d'erreur
 
+   // Check constraints on future state
+   std::list<Person*> tmpFrom(from->getPeople());
+   std::list<Person*> tmpTo(from->getPeople());
+
+   const std::list<Person*> futureFromState = getFromFutureState(tmpFrom, person);
+   const std::list<Person*> futureToState = getToFutureState(tmpTo, person);
+
+   // Check from
+   for (Person* p: futureFromState) {
+      if (!p->checkConstraint(futureFromState)) {
+         std::cout << "### Constraint not respected on " << p->getName() << std::endl; // TODO: display the exact error
+         return false;
+      }
+   }
+
+   // Check to
+   for (Person* p: futureToState) {
+      if (!p->checkConstraint(futureToState)) {
+         std::cout << "### Constraint not respected on " << p->getName() << std::endl; // TODO: display the exact error (overload in person ?)
+         return false;
+      }
+   }
+   // Apply the move
+   if (!to->add(person)) {
+      return false;
+   }
+
+   from->remove(person);
    return true;
 }
 
@@ -199,21 +229,15 @@ bool Controller::validateBoatMove() {
       return false;
    }
 
-   const std::list<Person*> futureState = getFutureState();
-
-   for (const Person* p: futureState) {
-      if (!p->checkConstraint(futureState)) {
-         std::cout << "### Constraint not respected" << std::endl; // TODO: display the exact error
-         return false;
-      }
-   }
-
    if (boatSide == LEFT) {
       boat->setCurrentBank(rightBank);
-   } else {
+   }
+   else {
       boat->setCurrentBank(leftBank);
    }
    return true;
 }
+
+
 
 

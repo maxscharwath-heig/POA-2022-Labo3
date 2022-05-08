@@ -34,13 +34,13 @@ private:
 
    void reset();
 
-   std::list<Person*> getFutureState();
+   std::list<Person*> getFromFutureState(std::list<Person*>& list, Person* person) const;
+
+   std::list<Person*> getToFutureState(std::list<Person*>& list, Person* person) const;
 
    bool validatePersonMove(Container* from, Container* to, const std::string& name);
 
    bool validateBoatMove();
-
-   bool validatePerson(const std::string& name) const;
 };
 
 

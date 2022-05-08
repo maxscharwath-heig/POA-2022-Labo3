@@ -2,7 +2,7 @@
 #include "Bank.hpp"
 
 Bank::Bank(const std::string& name) : Container(name) {}
-
+// TODO: utiliser les setfill et set width
 std::ostream& Bank::toStream(std::ostream& os) const {
     os << "----------------------------------------------------------" << std::endl
        << getName() << ": ";
