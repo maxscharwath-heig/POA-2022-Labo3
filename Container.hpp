@@ -15,9 +15,11 @@ public:
 
     virtual std::ostream& toStream(std::ostream& os) const = 0;
 
-    void add(Person* person);
+    virtual bool add(Person* person);
 
     void add(std::initializer_list<Person*> people);
+
+    void remove(Person* person);
 
     std::list<Person*>& getPeople();
 

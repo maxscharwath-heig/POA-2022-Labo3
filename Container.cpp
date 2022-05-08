@@ -13,8 +13,9 @@ Container::~Container() {
    }
 }
 
-void Container::add(Person* person) {
+bool Container::add(Person* person) {
    onBoard.push_back(person);
+   return true;
 }
 
 const std::string& Container::getName() const {
@@ -29,4 +30,8 @@ void Container::add(std::initializer_list<Person*> people) {
    for (Person* p: people) {
       add(p);
    }
+}
+
+void Container::remove(Person* person) {
+   onBoard.remove(person);
 }

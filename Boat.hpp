@@ -4,19 +4,26 @@
 #include "Container.hpp"
 #include "Bank.hpp"
 
-class Boat: public Container {
+enum BoatSide {
+   LEFT, RIGHT
+};
+
+class Boat : public Container {
 
 public:
-    explicit Boat(const std::string& name, Bank* bank);
-    void setCurrentBank(Bank* bank);
+   explicit Boat(const std::string& name, Bank* bank);
 
-    std::ostream& toStream(std::ostream &os) const override;
+   void setCurrentBank(Bank* bank);
 
-    bool isFull();
+   std::ostream& toStream(std::ostream& os) const override;
+
+   bool hasDriver() const;
+
+   bool add(Person* person) override;
 
 private:
-    Bank* currentBank;
-    const static unsigned MAX_CAPACITY;
+   Bank* currentBank;
+   const static unsigned MAX_CAPACITY;
 };
 
 #endif //POA_LABO3_BOAT_HPP

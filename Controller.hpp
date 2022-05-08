@@ -4,38 +4,43 @@
 #include "Bank.hpp"
 #include "Boat.hpp"
 
-enum BoatSide {
-    LEFT, RIGHT
-};
-
 class Controller {
 public:
-    Controller();
+   Controller();
 
-    ~Controller();
+   ~Controller();
 
-    Controller(const Controller&) = delete;
+   Controller(const Controller&) = delete;
 
-    Controller& operator=(const Controller&) = delete;
+   Controller& operator=(const Controller&) = delete;
 
-    void showMenu();
+   void showMenu();
 
-    void display();
+   void display();
 
-    void nextTurn();
+   void nextTurn();
 
-    void getInput();
+   void getInput();
 
-    void start();
+   void start();
 
 private:
-    unsigned turn;
-    Bank* leftBank;
-    Bank* rightBank;
-    Boat* boat;
-    BoatSide boatSide;
+   std::list<Person*> persons;
+   unsigned turn;
+   Bank* leftBank;
+   Bank* rightBank;
+   Boat* boat;
+   BoatSide boatSide;
 
-    void reset();
+   void reset();
+
+   std::list<Person*> getFutureState();
+
+   bool validatePersonMove(Container* from, Container* to, const std::string& name);
+
+   bool validateBoatMove();
+
+   bool validatePerson(const std::string& name) const;
 };
 
 

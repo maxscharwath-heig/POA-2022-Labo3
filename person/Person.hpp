@@ -11,6 +11,7 @@ public:
     virtual bool canDrive() const = 0;
     std::ostream& toStream(std::ostream& os) const;
     virtual bool checkConstraint(std::list<Person*> context) const = 0;
+    const std::string& getName() const;
 
 protected:
     explicit Person(const std::string& name);
