@@ -73,11 +73,6 @@ private:
     */
    bool getInput();
 
-   // TODO: refactor
-   std::list<Person*> getFromFutureState(std::list<Person*>& list, Person* person) const;
-   // TODO: refactor
-   std::list<Person*> getToFutureState(std::list<Person*>& list, Person* person) const;
-
    /**
     * Checks if the move person move is valid, if so moves it
     * @param from Source container

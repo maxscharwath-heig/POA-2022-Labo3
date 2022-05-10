@@ -151,21 +151,7 @@ void Controller::reset() {
 
 void Controller::start() {
    showMenu();
-   while (getInput()) {}
-}
-
-std::list<Person*> Controller::getFromFutureState(std::list<Person*>& list, Person* person) const {
-   std::list<Person*> state;
-   state.splice(state.end(), list);
-   state.remove(person);
-   return state;
-}
-
-std::list<Person*> Controller::getToFutureState(std::list<Person*>& list, Person* person) const {
-   std::list<Person*> state;
-   state.splice(state.end(), list);
-   state.push_back(person);
-   return state;
+   while (getInput());
 }
 
 bool Controller::validatePersonMove(Container* from, Container* to, const std::string& name) {
@@ -192,15 +178,11 @@ bool Controller::validatePersonMove(Container* from, Container* to, const std::s
       return false;
    }
 
-   // NOTE: ici On travaille avec des copies pour pas changer les listes courantes
-   // TODO: A voir si ce n'est pas mieux de changer les listes courante et de rollback en cas d'erreur
-
-   // Check constraints on future state
-   std::list<Person*> tmpFrom(from->getPeople());
-   std::list<Person*> tmpTo(to->getPeople());
-
-   const std::list<Person*> futureFromState = getFromFutureState(tmpFrom, person);
-   const std::list<Person*> futureToState = getToFutureState(tmpTo, person);
+   // Check constraints on future state (create copies to avoid changing the source list)
+   std::list<Person*> futureFromState(from->getPeople());
+   futureFromState.remove(person);
+   std::list<Person*> futureToState(to->getPeople());
+   futureToState.push_back(person);
 
    // Check from
    for (Person* p: futureFromState) {
@@ -218,6 +200,7 @@ bool Controller::validatePersonMove(Container* from, Container* to, const std::s
          return false;
       }
    }
+
    // Apply the move
    if (!to->add(person)) {
       return false;
