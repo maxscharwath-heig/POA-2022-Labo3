@@ -26,6 +26,12 @@ public:
 
    /**
     * Set a constraint of the person
+    *
+    * shouldBeWith cannot be the current person
+    * cannotBeWith cannot contain twice the same person
+    * shouldBeWith cannot be in cannotBeWith
+    * Invalid cases are ignored
+    *
     * @param shouldBeWith The person it should stays with
     * @param cannotBeWith The people that cannot be with, without shouldBeWith
     */

@@ -23,9 +23,11 @@ bool ConstrainedPerson::checkConstraint(const std::list<const Person*>& context)
 }
 
 void ConstrainedPerson::setConstraint(const Person* shouldBeWith, std::initializer_list<const Person*> cannotBeWith) {
+   if (shouldBeWith == this) return;
+
    _shouldBeWith = shouldBeWith;
    for (const Person* p: cannotBeWith) {
-      if (p != nullptr && p != this && p != shouldBeWith) {
+      if (p != nullptr && p != this && p != shouldBeWith && std::find(_cannotBeWith.begin(), _cannotBeWith.end(), p) == _cannotBeWith.end()) {
          _cannotBeWith.push_back(p);
       }
    }

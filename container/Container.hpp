@@ -87,6 +87,9 @@ protected:
    const std::string _name;
 
    std::list<const Person*> _onBoard;
+
+private:
+   bool isAlreadyOnBoard(const Person* p) const;
 };
 
 

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Container.hpp"
 
 std::ostream& operator<<(std::ostream& os, const Container& container) {
@@ -7,6 +8,10 @@ std::ostream& operator<<(std::ostream& os, const Container& container) {
 Container::Container(const std::string& name) : _name(name) {}
 
 bool Container::add(const Person* person) {
+   if (isAlreadyOnBoard(person)) {
+      return false;
+   }
+
    _onBoard.push_back(person);
    return true;
 }
@@ -37,6 +42,10 @@ void Container::remove(const Person* person) {
 
 void Container::clear() {
    _onBoard.clear();
+}
+
+bool Container::isAlreadyOnBoard(const Person* p) const {
+   return std::find(_onBoard.begin(), _onBoard.end(), p) != _onBoard.end();
 }
 
 
