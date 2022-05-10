@@ -21,5 +21,6 @@ const static unsigned MENU_GAP = 8;
 const static unsigned LINE_SIZE = 60;
 const static char RIVER_CHAR = '=';
 const static char BANK_CHAR = '-';
+const static std::string ERROR_PREFIX = "### ";
 
 #endif //POA_LABO3_CONSTANTS_H

@@ -19,7 +19,7 @@ bool Boat::hasDriver() const {
 }
 
 std::ostream& Boat::toStream(std::ostream& os) const {
-   os << getName() << "< ";
+   os << getName() << ": < ";
    for (auto it = _onBoard.begin(); it != _onBoard.end(); ++it) {
       (*it)->toStream(os);
       if (it != std::prev(_onBoard.end())) {

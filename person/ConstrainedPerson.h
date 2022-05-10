@@ -24,16 +24,22 @@ public:
 
    bool checkConstraint(std::list<Person*> context) const override;
 
+    std::ostream& printErrorMessageToStream(std::ostream& os) const override;
+
    /**
     * Set a constraint of the person
     * @param shouldBeWith The person it should stays with
     * @param cannotBeWith The people that cannot be with, without shouldBeWith
+    * @param errorMsgConstraint The message to show when constraint doesnt match
     */
-   void setConstraint(Person* shouldBeWith, std::initializer_list<Person*> cannotBeWith);
+   void setConstraint(Person* shouldBeWith,
+                      std::initializer_list<Person*>cannotBeWith,
+                      const std::string& errorMsgConstraint);
 
 private:
    Person* _shouldBeWith;
    std::list<Person*> _cannotBeWith;
+   std::string _errorMsgConstraint;
 };
 
 

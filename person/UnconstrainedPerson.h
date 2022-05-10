@@ -21,6 +21,8 @@ public:
    bool canDrive() const override;
 
    bool checkConstraint(std::list<Person*> context) const override;
+
+    std::ostream& printErrorMessageToStream(std::ostream& os) const override;
 };
 
 

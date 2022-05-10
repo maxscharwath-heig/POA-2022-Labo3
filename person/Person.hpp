@@ -41,6 +41,13 @@ public:
     */
    const std::string& getName() const;
 
+   /**
+    * Display a person's error message
+    * @param os output stream
+    * @return modified output stream
+    */
+    virtual std::ostream& printErrorMessageToStream(std::ostream& os) const = 0;
+
 protected:
    /**
     * Creates a new person

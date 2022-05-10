@@ -1,5 +1,6 @@
 #include <algorithm>
 #include "ConstrainedPerson.h"
+#include "../Constants.h"
 
 ConstrainedPerson::ConstrainedPerson(const std::string& name) : Person(name), _shouldBeWith(nullptr) {}
 
@@ -22,11 +23,18 @@ bool ConstrainedPerson::checkConstraint(std::list<Person*> context) const {
    return true;
 }
 
-void ConstrainedPerson::setConstraint(Person* shouldBeWith, std::initializer_list<Person*> cannotBeWith) {
+void ConstrainedPerson::setConstraint(Person* shouldBeWith,
+                                      std::initializer_list<Person*> cannotBeWith,
+                                      const std::string& errorMsgConstraint) {
+    _errorMsgConstraint = errorMsgConstraint;
    _shouldBeWith = shouldBeWith;
    for (Person* p: cannotBeWith) {
       if (p != nullptr && p != this && p != shouldBeWith) {
          _cannotBeWith.push_back(p);
       }
    }
+}
+
+std::ostream& ConstrainedPerson::printErrorMessageToStream(std::ostream& os) const {
+    return os << ERROR_PREFIX << _errorMsgConstraint;
 }
