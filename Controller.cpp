@@ -130,10 +130,10 @@ bool Controller::getInput() {
                 break;
 
             default:
-                std::cout << "### Commande introuvable" << std::endl;
+                std::cout << ERROR_PREFIX<< "Commande introuvable" << std::endl;
         }
     } else {
-        std::cout << "### Format de commande invalide" << std::endl;
+        std::cout << ERROR_PREFIX<< " Format de commande invalide" << std::endl;
     }
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -176,7 +176,7 @@ bool Controller::validatePersonMove(Container* from, Container* to,
                                  });
 
     if (personIt == persons.end()) {
-        std::cout << "### Personne specifiee invalide" << std::endl;
+        std::cout << ERROR_PREFIX<< " Personne specifiee invalide" << std::endl;
         return false;
     }
 
@@ -187,7 +187,7 @@ bool Controller::validatePersonMove(Container* from, Container* to,
     // Check if person is in "from"
     if (std::find(peopleInFrom.begin(), peopleInFrom.end(), person) ==
         peopleInFrom.end()) {
-        std::cout << "### " << person->getName() << " n'est pas sur "
+        std::cout << ERROR_PREFIX << person->getName() << " n'est pas sur "
                   << from->getName() << std::endl;
         return false;
     }
@@ -225,7 +225,7 @@ bool Controller::validatePersonMove(Container* from, Container* to,
 
 bool Controller::validateBoatMove() {
     if (!boat->hasDriver()) {
-        std::cout << "### Le bateau n'a pas de conducteur" << std::endl;
+        std::cout << ERROR_PREFIX<< " Le bateau n'a pas de conducteur" << std::endl;
         return false;
     }
 
