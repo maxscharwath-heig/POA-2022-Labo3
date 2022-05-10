@@ -15,5 +15,5 @@ std::ostream& Bank::toStream(std::ostream& os) const {
          os << " ";
       }
    }
-   return os << std::endl << std::setw(60) << std::setfill('-') << "" << std::endl;
+   return os << std::endl << std::setw(LINE_SIZE) << std::setfill(BANK_CHAR) << "" << std::endl;
 }

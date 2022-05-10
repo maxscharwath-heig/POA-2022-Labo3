@@ -11,13 +11,27 @@ enum BoatSide {
 class Boat : public Container {
 
 public:
-   explicit Boat(const std::string& name, Bank* bank);
+   /**
+    * Creates a new boat
+    * @param name boat's name
+    * @param bank boat's current bank
+    */
+   Boat(const std::string& name, Bank* bank);
 
+   /**
+    * Define the boat's current bank
+    * @param bank new boat's bank
+    */
    void setCurrentBank(Bank* bank);
 
-   std::ostream& toStream(std::ostream& os) const override;
-
+   /**
+    * Check if the boat can be driven by someone in the boat
+    * @return true if it has a driver, else false
+    */
    bool hasDriver() const;
+
+
+   std::ostream& toStream(std::ostream& os) const override;
 
    bool add(Person* person) override;
 

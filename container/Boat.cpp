@@ -10,6 +10,10 @@ void Boat::setCurrentBank(Bank* bank) {
    currentBank = bank;
 }
 
+bool Boat::hasDriver() const {
+   return std::find_if(onBoard.begin(), onBoard.end(), [](const Person* p) { return p->canDrive(); }) != onBoard.end();
+}
+
 std::ostream& Boat::toStream(std::ostream& os) const {
    os << getName() << "< ";
    for (auto it = onBoard.begin(); it != onBoard.end(); ++it) {
@@ -21,15 +25,17 @@ std::ostream& Boat::toStream(std::ostream& os) const {
    return os << " >";
 }
 
-bool Boat::hasDriver() const {
-   return std::find_if(onBoard.begin(), onBoard.end(), [](const Person* p) { return p->canDrive(); }) != onBoard.end();
-}
-
 bool Boat::add(Person* p) {
-   if (onBoard.size() == MAX_CAPACITY || std::find(onBoard.begin(), onBoard.end(), p) != onBoard.end()) {
+   if (onBoard.size() == MAX_CAPACITY) {
       std::cout << "### Il n'y a plus de place dans le bateau" << std::endl;
       return false;
    }
+
+   if (std::find(onBoard.begin(), onBoard.end(), p) != onBoard.end()) {
+      std::cout << "### " << p->getName() << "est déjà dans le bateau" << std::endl;
+      return false;
+   }
+
    onBoard.push_back(p);
    return true;
 }

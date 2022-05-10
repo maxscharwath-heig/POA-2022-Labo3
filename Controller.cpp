@@ -43,6 +43,7 @@ Controller::~Controller() {
 }
 
 void Controller::showMenu() {
+   // TODO: setw
    std::cout << "p : afficher" << std::endl
              << "e <nom>: embarquer <nom>" << std::endl
              << "d <nom>: debarquer <nom>" << std::endl
@@ -151,6 +152,7 @@ void Controller::reset() {
    rightBank->clear();
    turn = 0;
    leftBank->add(persons);
+   boatSide = LEFT;
 }
 
 void Controller::start() {
