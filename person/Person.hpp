@@ -28,6 +28,11 @@ public:
     */
    virtual std::ostream& toStream(std::ostream& os) const;
 
+   /**
+    * Validate if a list of person verifies all its members constraints
+    * @param context list of person to perform check on
+    * @return true if constraints are repected, else false
+    */
    virtual bool checkConstraint(std::list<Person*> context) const = 0;
 
    /**

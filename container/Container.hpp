@@ -36,7 +36,7 @@ public:
    /**
     * Add a person to the container
     * @param person person to add
-    * @return true if the person could be added, else false
+    * @return true if the person has been added, else false
     */
    virtual bool add(Person* person);
 
