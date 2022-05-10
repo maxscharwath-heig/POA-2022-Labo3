@@ -6,6 +6,6 @@ bool UnconstrainedPerson::canDrive() const {
    return true;
 }
 
-bool UnconstrainedPerson::checkConstraint(std::list<Person*> context) const {
+bool UnconstrainedPerson::checkConstraint(const std::list<const Person*>& context) const {
    return true;
 }

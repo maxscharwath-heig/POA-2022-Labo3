@@ -20,7 +20,7 @@ public:
 
    bool canDrive() const override;
 
-   bool checkConstraint(std::list<Person*> context) const override;
+   bool checkConstraint(const std::list<const Person*>& context) const override;
 };
 
 

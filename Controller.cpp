@@ -33,7 +33,7 @@ Controller::Controller() {
 }
 
 Controller::~Controller() {
-   for (Person* p: persons) {
+   for (const Person* p: persons) {
       delete p;
    }
    delete leftBank;
@@ -168,9 +168,9 @@ bool Controller::validatePersonMove(Container* from, Container* to, const std::s
       return false;
    }
 
-   Person* person = *personIt;
+   const Person* person = *personIt;
 
-   const std::list<Person*> peopleInFrom = from->getPeople();
+   const std::list<const Person*> peopleInFrom = from->getPeople();
 
    // Check if person is in "from"
    if (std::find(peopleInFrom.begin(), peopleInFrom.end(), person) == peopleInFrom.end()) {
@@ -179,13 +179,13 @@ bool Controller::validatePersonMove(Container* from, Container* to, const std::s
    }
 
    // Check constraints on future state (create copies to avoid changing the source list)
-   std::list<Person*> futureFromState(from->getPeople());
+   std::list<const Person*> futureFromState(from->getPeople());
    futureFromState.remove(person);
-   std::list<Person*> futureToState(to->getPeople());
+   std::list<const Person*> futureToState(to->getPeople());
    futureToState.push_back(person);
 
    // Check from
-   for (Person* p: futureFromState) {
+   for (const Person* p: futureFromState) {
       if (!p->checkConstraint(futureFromState)) {
          std::cout << "### Constraint not respected on " << p->getName() << std::endl; // TODO: display the exact error
          return false;
@@ -193,7 +193,7 @@ bool Controller::validatePersonMove(Container* from, Container* to, const std::s
    }
 
    // Check to
-   for (Person* p: futureToState) {
+   for (const Person* p: futureToState) {
       if (!p->checkConstraint(futureToState)) {
          std::cout << "### Constraint not respected on " << p->getName()
                    << std::endl; // TODO: display the exact error (overload in person ?)

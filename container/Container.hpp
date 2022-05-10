@@ -38,19 +38,19 @@ public:
     * @param person person to add
     * @return true if the person has been added, else false
     */
-   virtual bool add(Person* person);
+   virtual bool add(const Person* person);
 
    /**
     * Add an initializer list of person to the container
     * @param person initializer list of person to add
     */
-   virtual void add(std::initializer_list<Person*> people);
+   virtual void add(std::initializer_list<const Person*> people);
 
    /**
     * Add a list of person to the container
     * @param person list of person to add
     */
-   virtual void add(const std::list<Person*>& people);
+   virtual void add(const std::list<const Person*>& people);
 
    /**
     * Remove a person from the container
@@ -58,7 +58,7 @@ public:
     * No effect if the person is not in the container
     * @param person person to remove
     */
-   virtual void remove(Person* person);
+   virtual void remove(const Person* person);
 
    /**
     * Empty the container
@@ -69,7 +69,7 @@ public:
     * Get the people in container
     * @return list of people in container
     */
-   const std::list<Person*>& getPeople() const;
+   const std::list<const Person*>& getPeople() const;
 
    /**
     * Get the container's name
@@ -86,7 +86,7 @@ protected:
 
    const std::string _name;
 
-   std::list<Person*> _onBoard;
+   std::list<const Person*> _onBoard;
 };
 
 

@@ -22,18 +22,18 @@ public:
 
    bool canDrive() const override;
 
-   bool checkConstraint(std::list<Person*> context) const override;
+   bool checkConstraint(const std::list<const Person*>& context) const override;
 
    /**
     * Set a constraint of the person
     * @param shouldBeWith The person it should stays with
     * @param cannotBeWith The people that cannot be with, without shouldBeWith
     */
-   void setConstraint(Person* shouldBeWith, std::initializer_list<Person*> cannotBeWith);
+   void setConstraint(const Person* shouldBeWith, std::initializer_list<const Person*> cannotBeWith);
 
 private:
-   Person* _shouldBeWith;
-   std::list<Person*> _cannotBeWith;
+   const Person* _shouldBeWith;
+   std::list<const Person*> _cannotBeWith;
 };
 
 

@@ -33,7 +33,7 @@ public:
     * @param context list of person to perform check on
     * @return true if constraints are repected, else false
     */
-   virtual bool checkConstraint(std::list<Person*> context) const = 0;
+   virtual bool checkConstraint(const std::list<const Person*>& context) const = 0;
 
    /**
     * Get the person's name
