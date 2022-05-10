@@ -12,7 +12,6 @@ Controller::Controller() {
    rightBank = new Bank("Droite");
    boat = new Boat("Bateau", leftBank);
    turn = 0;
-   boatSide = LEFT; // TODO: use boat->getSideInstead ? le stocker ailleurs ?
 
    UnconstrainedPerson* pere = new UnconstrainedPerson("pere");
    UnconstrainedPerson* mere = new UnconstrainedPerson("mere");
@@ -43,25 +42,25 @@ Controller::~Controller() {
 }
 
 void Controller::showMenu() {
-   // TODO: setw
-   std::cout << "p : afficher" << std::endl
-             << "e <nom>: embarquer <nom>" << std::endl
-             << "d <nom>: debarquer <nom>" << std::endl
-             << "m: deplacer bateau" << std::endl
-             << "r: reinitialiser" << std::endl
-             << "q: quitter" << std::endl
-             << "h: menu" << std::endl;
+   std::cout << std::setw(MENU_GAP) << std::left << "p"       << ": afficher"        << std::endl
+             << std::setw(MENU_GAP) << std::left << "e <nom>" << ": embarquer <nom>" << std::endl
+             << std::setw(MENU_GAP) << std::left << "d <nom>" << ": debarquer <nom>" << std::endl
+             << std::setw(MENU_GAP) << std::left << "m"       << ": deplacer bateau" << std::endl
+             << std::setw(MENU_GAP) << std::left << "r"       << ": reinitialiser"   << std::endl
+             << std::setw(MENU_GAP) << std::left << "q"       << ": quitter"         << std::endl
+             << std::setw(MENU_GAP) << std::left << "h"       << ": menu"            << std::endl;
 }
 
 void Controller::display() {
    std::cout << std::endl << *leftBank;
-   if (boatSide == LEFT) {
+
+   if (boat->getCurrentBank() == leftBank) {
       std::cout << *boat;
    }
 
    std::cout << std::endl << std::setw(LINE_SIZE) << std::setfill(RIVER_CHAR) << "" << std::endl;
 
-   if (boatSide == RIGHT) {
+   if (boat->getCurrentBank() == rightBank) {
       std::cout << *boat;
    }
 
@@ -88,7 +87,6 @@ bool Controller::getInput() {
    switch (command) {
       case MOVE_KEY:
          if (validateBoatMove()) {
-            boatSide = boatSide == LEFT ? RIGHT : LEFT;
             std::cout << "Deplacement du bateau" << std::endl;
          }
          nextTurn();
@@ -98,9 +96,7 @@ bool Controller::getInput() {
          std::string name;
          std::cin >> name;
 
-         Bank* bankSide = boatSide == LEFT ? leftBank : rightBank;
-
-         if (validatePersonMove(bankSide, boat, name)) {
+         if (validatePersonMove(boat->getCurrentBank(), boat, name)) {
             std::cout << "Embarquement de " << name << std::endl;
          }
          nextTurn();
@@ -111,9 +107,7 @@ bool Controller::getInput() {
          std::string name;
          std::cin >> name;
 
-         Bank* bankSide = boatSide == LEFT ? leftBank : rightBank;
-
-         if (validatePersonMove(boat, bankSide, name)) {
+         if (validatePersonMove(boat, boat->getCurrentBank(), name)) {
             std::cout << "Debarquement de " << name << std::endl;
          }
          nextTurn();
@@ -152,7 +146,7 @@ void Controller::reset() {
    rightBank->clear();
    turn = 0;
    leftBank->add(persons);
-   boatSide = LEFT;
+   boat->setCurrentBank(leftBank);
 }
 
 void Controller::start() {
@@ -203,7 +197,7 @@ bool Controller::validatePersonMove(Container* from, Container* to, const std::s
 
    // Check constraints on future state
    std::list<Person*> tmpFrom(from->getPeople());
-   std::list<Person*> tmpTo(from->getPeople());
+   std::list<Person*> tmpTo(to->getPeople());
 
    const std::list<Person*> futureFromState = getFromFutureState(tmpFrom, person);
    const std::list<Person*> futureToState = getToFutureState(tmpTo, person);
@@ -239,7 +233,7 @@ bool Controller::validateBoatMove() {
       return false;
    }
 
-   Bank* bankSide = boatSide == LEFT ? rightBank : leftBank;
+   Bank* bankSide = boat->getCurrentBank() == leftBank ? rightBank : leftBank;
    boat->setCurrentBank(bankSide);
    return true;
 }

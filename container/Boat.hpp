@@ -4,10 +4,6 @@
 #include "Container.hpp"
 #include "Bank.hpp"
 
-enum BoatSide {
-   LEFT, RIGHT
-};
-
 /**
  * Define a boat
  *
@@ -30,6 +26,12 @@ public:
     * @param bank new boat's bank
     */
    void setCurrentBank(Bank* bank);
+
+   /**
+    * Get the bank where the boat is staying
+    * @return bank of boat's side
+    */
+   Bank* getCurrentBank() const;
 
    /**
     * Check if the boat can be driven by someone in the boat

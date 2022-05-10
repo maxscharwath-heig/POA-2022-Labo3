@@ -45,7 +45,6 @@ private:
    Bank* leftBank;
    Bank* rightBank;
    Boat* boat;
-   BoatSide boatSide;
 
    /**
     * Reset the game to its initial state
@@ -80,7 +79,7 @@ private:
    std::list<Person*> getToFutureState(std::list<Person*>& list, Person* person) const;
 
    /**
-    * Checks if the move person move is valid
+    * Checks if the move person move is valid, if so moves it
     * @param from Source container
     * @param to Destination container
     * @param name name of person
@@ -89,7 +88,7 @@ private:
    bool validatePersonMove(Container* from, Container* to, const std::string& name);
 
    /**
-    * Check if the boat can be moved (has a driver)
+    * Check if the boat can be moved (has a driver), if so moves it
     * @return true is the boat can move, else false
     */
    bool validateBoatMove();

@@ -10,6 +10,10 @@ void Boat::setCurrentBank(Bank* bank) {
    _currentBank = bank;
 }
 
+Bank* Boat::getCurrentBank() const {
+   return _currentBank;
+}
+
 bool Boat::hasDriver() const {
    return std::find_if(_onBoard.begin(), _onBoard.end(), [](const Person* p) { return p->canDrive(); }) != _onBoard.end();
 }
