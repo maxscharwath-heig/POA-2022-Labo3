@@ -41,6 +41,8 @@ private:
    bool validatePersonMove(Container* from, Container* to, const std::string& name);
 
    bool validateBoatMove();
+
+   bool checkWin() const;
 };
 
 

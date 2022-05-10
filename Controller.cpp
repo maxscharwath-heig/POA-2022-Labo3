@@ -57,11 +57,9 @@ void Controller::display() {
    }
    std::cout << "==========================================================" << std::endl; // TODO: utiliser les setfill et set width
    if (boatSide == RIGHT) {
-      std::cout << *boat << std::endl;
+      std::cout << *boat;
    }
-   else {
-      std::cout << std::endl;
-   }
+
    std::cout << std::endl << *rightBank;
 }
 
@@ -73,53 +71,57 @@ void Controller::getInput() {
    bool invalid;
    do {
       invalid = false;
+
+      if (checkWin()) {
+         std::cout << "Vous avez reussi en " << turn << " coups !" << std::endl;
+         exit(EXIT_SUCCESS);
+      }
+
       display();
       std::cout << std::endl << turn << ">\t";
       char command;
       std::cin >> command;
       // TODO: constantes pour les cases
+      // TODO: regler le cas ou on ecrit "epolicier" sans espace, et faire une méthode privée pour la recup de la saisie
       switch (command) {
          case 'p':
             display();
             break;
          case 'q':
-            exit(0);
-            break;
+            exit(EXIT_SUCCESS);
          case 'r':
             reset();
             break;
          case 'm':
-            std::cout << "Deplacement du bateau" << std::endl;
             if (validateBoatMove()) {
                boatSide = boatSide == LEFT ? RIGHT : LEFT;
+               std::cout << "Deplacement du bateau" << std::endl;
             }
             nextTurn();
             break;
          case 'e': {
             std::string name;
             std::cin >> name;
-            std::cout << "Embarquement de " << name << std::endl;
 
-            if (boatSide == LEFT) {
-               validatePersonMove(leftBank, boat, name);
+            Bank* bankSide = boatSide == LEFT ? leftBank : rightBank;
+
+            if (validatePersonMove(bankSide, boat, name)) {
+               std::cout << "Embarquement de " << name << std::endl;
             }
-            else {
-               validatePersonMove(rightBank, boat, name);
-            }
+
             nextTurn();
          }
             break;
          case 'd': {
             std::string name;
             std::cin >> name;
-            std::cout << "Debarquement de " << name << std::endl;
 
-            if (boatSide == LEFT) {
-               validatePersonMove(boat, leftBank, name);
+            Bank* bankSide = boatSide == LEFT ? leftBank : rightBank;
+
+            if (validatePersonMove(boat, bankSide, name)) {
+               std::cout << "Debarquement de " << name << std::endl;
             }
-            else {
-               validatePersonMove(boat, rightBank, name);
-            }
+
             nextTurn();
          }
             break;
@@ -236,6 +238,10 @@ bool Controller::validateBoatMove() {
       boat->setCurrentBank(leftBank);
    }
    return true;
+}
+
+bool Controller::checkWin() const {
+   return rightBank->getPeople().size() == persons.size();
 }
 
 
