@@ -11,14 +11,6 @@ bool Container::add(Person* person) {
    return true;
 }
 
-const std::string& Container::getName() const {
-   return name;
-}
-
-std::list<Person*>& Container::getPeople() {
-   return onBoard;
-}
-
 void Container::add(std::initializer_list<Person*> people) {
    for (Person* p: people) {
       add(p);
@@ -29,6 +21,14 @@ void Container::add(const std::list<Person*>& people) {
    for (Person* p: people) {
       add(p);
    }
+}
+
+const std::string& Container::getName() const {
+   return name;
+}
+
+const std::list<Person*>& Container::getPeople() const {
+   return onBoard;
 }
 
 void Container::remove(Person* person) {

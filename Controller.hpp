@@ -1,9 +1,16 @@
 #ifndef POA_LABO3_CONTROLLER_HPP
 #define POA_LABO3_CONTROLLER_HPP
 
-#include "Bank.hpp"
-#include "Boat.hpp"
+#include "container/Bank.hpp"
+#include "container/Boat.hpp"
 
+/**
+ * The main controller for the river game
+ *
+ * @author Nicolas Crausaz
+ * @author Maxime Scharwath
+ * @date 10.05.2022
+ */
 class Controller {
 public:
    Controller();
@@ -13,14 +20,6 @@ public:
    Controller(const Controller&) = delete;
 
    Controller& operator=(const Controller&) = delete;
-
-   static void showMenu();
-
-   void display();
-
-   void nextTurn();
-
-   void getInput();
 
    void start();
 
@@ -34,6 +33,14 @@ private:
 
    void reset();
 
+   static void showMenu();
+
+   void display();
+
+   void nextTurn();
+
+   bool getInput();
+
    std::list<Person*> getFromFutureState(std::list<Person*>& list, Person* person) const;
 
    std::list<Person*> getToFutureState(std::list<Person*>& list, Person* person) const;
@@ -41,8 +48,6 @@ private:
    bool validatePersonMove(Container* from, Container* to, const std::string& name);
 
    bool validateBoatMove();
-
-   bool checkWin() const;
 };
 
 

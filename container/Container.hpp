@@ -3,7 +3,7 @@
 
 #include <string>
 #include <list>
-#include "person/Person.hpp"
+#include "../person/Person.hpp"
 
 class Container;
 
@@ -25,7 +25,7 @@ public:
 
    void clear();
 
-   std::list<Person*>& getPeople();
+   const std::list<Person*>& getPeople() const;
 
    const std::string& getName() const;
 

@@ -1,9 +1,9 @@
 #include "Person.hpp"
 
-Person::Person(const std::string& name): name(name) {}
+Person::Person(const std::string& name) : name(name) {}
 
 std::ostream& Person::toStream(std::ostream& os) const {
-    return os << name;
+   return os << name;
 }
 
 const std::string& Person::getName() const {

@@ -1,24 +1,18 @@
 #include <iostream>
 #include <limits>
 #include <algorithm>
+#include <iomanip>
 #include "Controller.hpp"
 #include "person/UnconstrainedPerson.h"
 #include "person/ConstrainedPerson.h"
-
-const static char DISPLAY_KEY = 'p';
-const static char LOAD_KEY = 'e';
-const static char UNLOAD_KEY = 'd';
-const static char MOVE_KEY = 'm';
-const static char RESET_KEY = 'r';
-const static char QUIT_KEY = 'q';
-const static char HELP_KEY = 'h';
+#include "Constants.h"
 
 Controller::Controller() {
    leftBank = new Bank("Gauche");
    rightBank = new Bank("Droite");
    boat = new Boat("Bateau", leftBank);
    turn = 0;
-   boatSide = LEFT;
+   boatSide = LEFT; // TODO: use boat->getSideInstead ? le stocker ailleurs ?
 
    UnconstrainedPerson* pere = new UnconstrainedPerson("pere");
    UnconstrainedPerson* mere = new UnconstrainedPerson("mere");
@@ -40,7 +34,7 @@ Controller::Controller() {
 }
 
 Controller::~Controller() {
-   for (Person* p : persons) {
+   for (Person* p: persons) {
       delete p;
    }
    delete leftBank;
@@ -59,105 +53,99 @@ void Controller::showMenu() {
 }
 
 void Controller::display() {
-   std::cout << *leftBank << std::endl;
+   std::cout << std::endl << *leftBank;
    if (boatSide == LEFT) {
-      std::cout << *boat << std::endl;
+      std::cout << *boat;
    }
-   else {
-      std::cout << std::endl;
-   }
-   std::cout << "=========================================================="
-             << std::endl; // TODO: utiliser les setfill et set width
+
+   std::cout << std::endl << std::setw(LINE_SIZE) << std::setfill(RIVER_CHAR) << "" << std::endl;
+
    if (boatSide == RIGHT) {
       std::cout << *boat;
    }
 
-   std::cout << std::endl << *rightBank;
+   std::cout << std::endl << *rightBank << turn << ">\t";
 }
 
 void Controller::nextTurn() {
    ++turn;
 }
 
-void Controller::getInput() {
-   bool invalid;
-   do {
-      invalid = false;
+bool Controller::getInput() {
+   // Check if the game is done
+   if (rightBank->getPeople().size() == persons.size()) {
+      std::cout << "Vous avez reussi en " << turn << " coups !" << std::endl;
+      return false;
+   }
 
-      if (checkWin()) {
-         std::cout << "Vous avez reussi en " << turn << " coups !" << std::endl;
-         exit(EXIT_SUCCESS);
+   bool continueGame = true;
+   display();
+   char command;
+   std::cin >> command;
+
+   // TODO: regler le cas ou on ecrit "epolicier" sans espace, et faire une méthode privée pour la recup de la saisie si besoin
+   switch (command) {
+      case MOVE_KEY:
+         if (validateBoatMove()) {
+            boatSide = boatSide == LEFT ? RIGHT : LEFT;
+            std::cout << "Deplacement du bateau" << std::endl;
+         }
+         nextTurn();
+         break;
+
+      case LOAD_KEY: {
+         std::string name;
+         std::cin >> name;
+
+         Bank* bankSide = boatSide == LEFT ? leftBank : rightBank;
+
+         if (validatePersonMove(bankSide, boat, name)) {
+            std::cout << "Embarquement de " << name << std::endl;
+         }
+         nextTurn();
+         break;
       }
 
-      display();
-      std::cout << std::endl << turn << ">\t";
-      char command;
-      std::cin >> command;
-      // TODO: constantes pour les cases
-      // TODO: regler le cas ou on ecrit "epolicier" sans espace, et faire une méthode privée pour la recup de la saisie
-      switch (command) {
-         case DISPLAY_KEY:
-            display();
-            break;
-         case QUIT_KEY:
-            exit(EXIT_SUCCESS);
-         case RESET_KEY:
-            reset();
-            break;
-         case MOVE_KEY:
-            if (validateBoatMove()) {
-               boatSide = boatSide == LEFT ? RIGHT : LEFT;
-               std::cout << "Deplacement du bateau" << std::endl;
-            }
-            nextTurn();
-            break;
-         case LOAD_KEY: {
-            std::string name;
-            std::cin >> name;
+      case UNLOAD_KEY: {
+         std::string name;
+         std::cin >> name;
 
-            Bank* bankSide = boatSide == LEFT ? leftBank : rightBank;
+         Bank* bankSide = boatSide == LEFT ? leftBank : rightBank;
 
-            if (validatePersonMove(bankSide, boat, name)) {
-               std::cout << "Embarquement de " << name << std::endl;
-            }
-
-            nextTurn();
+         if (validatePersonMove(boat, bankSide, name)) {
+            std::cout << "Debarquement de " << name << std::endl;
          }
-            break;
-         case UNLOAD_KEY: {
-            std::string name;
-            std::cin >> name;
-
-            Bank* bankSide = boatSide == LEFT ? leftBank : rightBank;
-
-            if (validatePersonMove(boat, bankSide, name)) {
-               std::cout << "Debarquement de " << name << std::endl;
-            }
-
-            nextTurn();
-         }
-            break;
-
-         case HELP_KEY: {
-            showMenu();
-         }
-            break;
-         default:
-            std::cout << "### Commande invalide" << std::endl;
-            invalid = true;
-            break;
+         nextTurn();
+         break;
       }
-      if (std::cin.fail()) {
-         invalid = true;
-      }
-      std::cin.clear();
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-   } while (invalid);
+
+      case DISPLAY_KEY:
+         display();
+         break;
+
+      case QUIT_KEY:
+         continueGame = false;
+         break;
+
+      case RESET_KEY:
+         reset();
+         break;
+
+      case HELP_KEY:
+         showMenu();
+         break;
+
+      default:
+         std::cout << "### Commande invalide" << std::endl;
+   }
+
+   std::cin.clear();
+   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+   return continueGame;
 }
 
 void Controller::reset() {
    std::cout << "Reinitialisation du jeu" << std::endl;
-
    leftBank->clear();
    boat->clear();
    rightBank->clear();
@@ -167,9 +155,7 @@ void Controller::reset() {
 
 void Controller::start() {
    showMenu();
-   while (true) {
-      getInput();
-   }
+   while (getInput()) {}
 }
 
 std::list<Person*> Controller::getFromFutureState(std::list<Person*>& list, Person* person) const {
@@ -211,8 +197,7 @@ bool Controller::validatePersonMove(Container* from, Container* to, const std::s
    }
 
    // NOTE: ici On travaille avec des copies pour pas changer les listes courantes
-   // TODO: A voir si ce n'est pas mieux de changer les listes courante et de rollback en cas
-   // d'erreur
+   // TODO: A voir si ce n'est pas mieux de changer les listes courante et de rollback en cas d'erreur
 
    // Check constraints on future state
    std::list<Person*> tmpFrom(from->getPeople());
@@ -247,23 +232,14 @@ bool Controller::validatePersonMove(Container* from, Container* to, const std::s
 }
 
 bool Controller::validateBoatMove() {
-
    if (!boat->hasDriver()) {
       std::cout << "### Le bateau n'a pas de conducteur" << std::endl;
       return false;
    }
 
-   if (boatSide == LEFT) {
-      boat->setCurrentBank(rightBank);
-   }
-   else {
-      boat->setCurrentBank(leftBank);
-   }
+   Bank* bankSide = boatSide == LEFT ? rightBank : leftBank;
+   boat->setCurrentBank(bankSide);
    return true;
-}
-
-bool Controller::checkWin() const {
-   return rightBank->getPeople().size() == persons.size();
 }
 
 
