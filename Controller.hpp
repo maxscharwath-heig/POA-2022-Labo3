@@ -69,7 +69,7 @@ private:
 
    /**
     * Get the user input and handles it
-    * @return true if game should continue, else false (quit or game over)
+    * @return true if game should continue, else false
     */
    bool getInput();
 

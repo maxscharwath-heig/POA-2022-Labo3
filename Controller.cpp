@@ -72,68 +72,63 @@ void Controller::nextTurn() {
 }
 
 bool Controller::getInput() {
-   // Check if the game is done
-   if (rightBank->getPeople().size() == persons.size()) {
-      std::cout << "Vous avez reussi en " << turn << " coups !" << std::endl;
-      return false;
-   }
-
    bool continueGame = true;
-   display();
-   char command;
-   std::cin >> command;
+   //using string instead of char to avoid this case: dpolice.
+   std::string commandString;
+   std::cin >> commandString;
+   if(commandString.size()==1){
+       switch (commandString[0]) {
+           case MOVE_KEY:
+               if (validateBoatMove()) {
+                   std::cout << "Deplacement du bateau" << std::endl;
+               }
+               nextTurn();
+               break;
 
-   // TODO: regler le cas ou on ecrit "epolicier" sans espace, et faire une méthode privée pour la recup de la saisie si besoin
-   switch (command) {
-      case MOVE_KEY:
-         if (validateBoatMove()) {
-            std::cout << "Deplacement du bateau" << std::endl;
-         }
-         nextTurn();
-         break;
+           case LOAD_KEY: {
+               std::string name;
+               std::cin >> name;
 
-      case LOAD_KEY: {
-         std::string name;
-         std::cin >> name;
+               if (validatePersonMove(boat->getCurrentBank(), boat, name)) {
+                   std::cout << "Embarquement de " << name << std::endl;
+               }
+               nextTurn();
+               break;
+           }
 
-         if (validatePersonMove(boat->getCurrentBank(), boat, name)) {
-            std::cout << "Embarquement de " << name << std::endl;
-         }
-         nextTurn();
-         break;
-      }
+           case UNLOAD_KEY: {
+               std::string name;
+               std::cin >> name;
 
-      case UNLOAD_KEY: {
-         std::string name;
-         std::cin >> name;
+               if (validatePersonMove(boat, boat->getCurrentBank(), name)) {
+                   std::cout << "Debarquement de " << name << std::endl;
+               }
+               nextTurn();
+               break;
+           }
 
-         if (validatePersonMove(boat, boat->getCurrentBank(), name)) {
-            std::cout << "Debarquement de " << name << std::endl;
-         }
-         nextTurn();
-         break;
-      }
+           case DISPLAY_KEY:
+               display();
+               break;
 
-      case DISPLAY_KEY:
-         display();
-         break;
+           case QUIT_KEY:
+               continueGame = false;
+               break;
 
-      case QUIT_KEY:
-         continueGame = false;
-         break;
+           case RESET_KEY:
+               reset();
+               break;
 
-      case RESET_KEY:
-         reset();
-         break;
+           case HELP_KEY:
+               showMenu();
+               break;
 
-      case HELP_KEY:
-         showMenu();
-         break;
-
-      default:
-         std::cout << "### Commande invalide" << std::endl;
+           default:
+               std::cout << "### Commande introuvable" << std::endl;
+       }
+   } else{
+       std::cout << "### Format de commande invalide" << std::endl;
    }
-
    std::cin.clear();
    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
    return continueGame;
@@ -151,7 +146,15 @@ void Controller::reset() {
 
 void Controller::start() {
    showMenu();
-   while (getInput());
+   bool continueGame;
+   do{ //main game loop
+       if (rightBank->getPeople().size() == persons.size()) {
+           std::cout << "Vous avez reussi en " << turn << " coups !" << std::endl;
+           break;
+       }
+       display();
+       continueGame = getInput();
+   } while (continueGame);
 }
 
 bool Controller::validatePersonMove(Container* from, Container* to, const std::string& name) {
