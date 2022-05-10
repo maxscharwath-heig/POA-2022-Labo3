@@ -11,26 +11,30 @@ std::ostream& operator<<(std::ostream& os, const Container& container);
 
 class Container {
 public:
-    virtual ~Container();
+   virtual ~Container() = default;
 
-    virtual std::ostream& toStream(std::ostream& os) const = 0;
+   virtual std::ostream& toStream(std::ostream& os) const = 0;
 
-    virtual bool add(Person* person);
+   virtual bool add(Person* person);
 
-    void add(std::initializer_list<Person*> people);
+   void add(std::initializer_list<Person*> people);
 
-    void remove(Person* person);
+   void add(const std::list<Person*>& people);
 
-    std::list<Person*>& getPeople();
+   void remove(Person* person);
 
-    const std::string& getName() const;
+   void clear();
+
+   std::list<Person*>& getPeople();
+
+   const std::string& getName() const;
 
 protected:
-    explicit Container(const std::string& name);
+   explicit Container(const std::string& name);
 
 protected:
-    const std::string name;
-    std::list<Person*> onBoard;
+   const std::string name;
+   std::list<Person*> onBoard;
 };
 
 

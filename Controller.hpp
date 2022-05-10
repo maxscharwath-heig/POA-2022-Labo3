@@ -14,7 +14,7 @@ public:
 
    Controller& operator=(const Controller&) = delete;
 
-   void showMenu();
+   static void showMenu();
 
    void display();
 

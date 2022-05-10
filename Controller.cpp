@@ -5,6 +5,14 @@
 #include "person/UnconstrainedPerson.h"
 #include "person/ConstrainedPerson.h"
 
+const static char DISPLAY_KEY = 'p';
+const static char LOAD_KEY = 'e';
+const static char UNLOAD_KEY = 'd';
+const static char MOVE_KEY = 'm';
+const static char RESET_KEY = 'r';
+const static char QUIT_KEY = 'q';
+const static char HELP_KEY = 'h';
+
 Controller::Controller() {
    leftBank = new Bank("Gauche");
    rightBank = new Bank("Droite");
@@ -28,13 +36,16 @@ Controller::Controller() {
    voleur->setConstraint(policier, {pere, mere, paul, pierre, julie, jeanne});
 
    persons = {pere, mere, policier, paul, pierre, julie, jeanne, voleur};
-   leftBank->add({pere, mere, policier, paul, pierre, julie, jeanne, voleur});
+   leftBank->add(persons);
 }
 
 Controller::~Controller() {
+   for (Person* p : persons) {
+      delete p;
+   }
    delete leftBank;
-   delete rightBank;
    delete boat;
+   delete rightBank;
 }
 
 void Controller::showMenu() {
@@ -55,7 +66,8 @@ void Controller::display() {
    else {
       std::cout << std::endl;
    }
-   std::cout << "==========================================================" << std::endl; // TODO: utiliser les setfill et set width
+   std::cout << "=========================================================="
+             << std::endl; // TODO: utiliser les setfill et set width
    if (boatSide == RIGHT) {
       std::cout << *boat;
    }
@@ -84,22 +96,22 @@ void Controller::getInput() {
       // TODO: constantes pour les cases
       // TODO: regler le cas ou on ecrit "epolicier" sans espace, et faire une méthode privée pour la recup de la saisie
       switch (command) {
-         case 'p':
+         case DISPLAY_KEY:
             display();
             break;
-         case 'q':
+         case QUIT_KEY:
             exit(EXIT_SUCCESS);
-         case 'r':
+         case RESET_KEY:
             reset();
             break;
-         case 'm':
+         case MOVE_KEY:
             if (validateBoatMove()) {
                boatSide = boatSide == LEFT ? RIGHT : LEFT;
                std::cout << "Deplacement du bateau" << std::endl;
             }
             nextTurn();
             break;
-         case 'e': {
+         case LOAD_KEY: {
             std::string name;
             std::cin >> name;
 
@@ -112,7 +124,7 @@ void Controller::getInput() {
             nextTurn();
          }
             break;
-         case 'd': {
+         case UNLOAD_KEY: {
             std::string name;
             std::cin >> name;
 
@@ -125,8 +137,13 @@ void Controller::getInput() {
             nextTurn();
          }
             break;
+
+         case HELP_KEY: {
+            showMenu();
+         }
+            break;
          default:
-            std::cout << "Commande invalide" << std::endl;
+            std::cout << "### Commande invalide" << std::endl;
             invalid = true;
             break;
       }
@@ -136,12 +153,16 @@ void Controller::getInput() {
       std::cin.clear();
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
    } while (invalid);
-
-   // TODO: determiner la fin de jeu (tous sur rive droite) et afficher le nombre de coups
 }
 
 void Controller::reset() {
    std::cout << "Reinitialisation du jeu" << std::endl;
+
+   leftBank->clear();
+   boat->clear();
+   rightBank->clear();
+   turn = 0;
+   leftBank->add(persons);
 }
 
 void Controller::start() {
@@ -211,7 +232,8 @@ bool Controller::validatePersonMove(Container* from, Container* to, const std::s
    // Check to
    for (Person* p: futureToState) {
       if (!p->checkConstraint(futureToState)) {
-         std::cout << "### Constraint not respected on " << p->getName() << std::endl; // TODO: display the exact error (overload in person ?)
+         std::cout << "### Constraint not respected on " << p->getName()
+                   << std::endl; // TODO: display the exact error (overload in person ?)
          return false;
       }
    }
