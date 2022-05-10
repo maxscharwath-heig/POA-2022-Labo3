@@ -8,6 +8,13 @@ enum BoatSide {
    LEFT, RIGHT
 };
 
+/**
+ * Define a boat
+ *
+ * @author Nicolas Crausaz
+ * @author Maxime Scharwath
+ * @date 10.05.2022
+ */
 class Boat : public Container {
 
 public:
@@ -36,7 +43,7 @@ public:
    bool add(Person* person) override;
 
 private:
-   Bank* currentBank;
+   Bank* _currentBank;
    const static unsigned MAX_CAPACITY;
 };
 

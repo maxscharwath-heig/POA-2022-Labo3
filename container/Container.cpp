@@ -4,10 +4,10 @@ std::ostream& operator<<(std::ostream& os, const Container& container) {
    return container.toStream(os);
 }
 
-Container::Container(const std::string& name) : name(name) {}
+Container::Container(const std::string& name) : _name(name) {}
 
 bool Container::add(Person* person) {
-   onBoard.push_back(person);
+   _onBoard.push_back(person);
    return true;
 }
 
@@ -24,19 +24,19 @@ void Container::add(const std::list<Person*>& people) {
 }
 
 const std::string& Container::getName() const {
-   return name;
+   return _name;
 }
 
 const std::list<Person*>& Container::getPeople() const {
-   return onBoard;
+   return _onBoard;
 }
 
 void Container::remove(Person* person) {
-   onBoard.remove(person);
+   _onBoard.remove(person);
 }
 
 void Container::clear() {
-   onBoard.clear();
+   _onBoard.clear();
 }
 
 

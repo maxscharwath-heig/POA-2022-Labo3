@@ -15,6 +15,13 @@ class Container;
  */
 std::ostream& operator<<(std::ostream& os, const Container& container);
 
+/**
+ * Define a container that allows people in it
+ *
+ * @author Nicolas Crausaz
+ * @author Maxime Scharwath
+ * @date 10.05.2022
+ */
 class Container {
 public:
    virtual ~Container() = default;
@@ -77,9 +84,9 @@ protected:
     */
    explicit Container(const std::string& name);
 
-   const std::string name;
+   const std::string _name;
 
-   std::list<Person*> onBoard;
+   std::list<Person*> _onBoard;
 };
 
 
