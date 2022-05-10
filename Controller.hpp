@@ -40,7 +40,7 @@ public:
    void start();
 
 private:
-   std::list<Person*> persons;
+   std::list<const Person*> persons;
    unsigned turn;
    Bank* leftBank;
    Bank* rightBank;

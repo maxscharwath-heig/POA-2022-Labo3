@@ -42,7 +42,7 @@ public:
 
    std::ostream& toStream(std::ostream& os) const override;
 
-   bool add(Person* person) override;
+   bool add(const Person* person) override;
 
 private:
    Bank* _currentBank;

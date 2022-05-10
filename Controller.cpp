@@ -34,7 +34,7 @@ Controller::Controller() {
 }
 
 Controller::~Controller() {
-    for (Person* p: persons) {
+    for (const Person* p: persons) {
         delete p;
     }
     delete leftBank;
@@ -180,9 +180,9 @@ bool Controller::validatePersonMove(Container* from, Container* to,
         return false;
     }
 
-    Person* person = *personIt;
+    const Person* person = *personIt;
 
-    const std::list<Person*> peopleInFrom = from->getPeople();
+    const std::list<const Person*> peopleInFrom = from->getPeople();
 
     // Check if person is in "from"
     if (std::find(peopleInFrom.begin(), peopleInFrom.end(), person) ==
@@ -193,13 +193,13 @@ bool Controller::validatePersonMove(Container* from, Container* to,
     }
 
     // Check constraints on future state (create copies to avoid changing the source list)
-    std::list<Person*> futureFromState(from->getPeople());
+    std::list<const Person*> futureFromState(from->getPeople());
     futureFromState.remove(person);
-    std::list<Person*> futureToState(to->getPeople());
+    std::list<const Person*> futureToState(to->getPeople());
     futureToState.push_back(person);
 
     // Check from
-    for (Person* p: futureFromState) {
+    for (const Person* p: futureFromState) {
         if (!p->checkConstraint(futureFromState)) {
             p->printErrorMessageToStream(std::cout) << std::endl;
             return false;
@@ -207,7 +207,7 @@ bool Controller::validatePersonMove(Container* from, Container* to,
     }
 
     // Check to
-    for (Person* p: futureToState) {
+    for (const Person* p: futureToState) {
         if (!p->checkConstraint(futureToState)) {
             p->printErrorMessageToStream(std::cout) << std::endl;
             return false;

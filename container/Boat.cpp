@@ -29,7 +29,7 @@ std::ostream& Boat::toStream(std::ostream& os) const {
    return os << " >";
 }
 
-bool Boat::add(Person* p) {
+bool Boat::add(const Person* p) {
    if (_onBoard.size() == MAX_CAPACITY) {
       std::cout << "### Il n'y a plus de place dans le bateau" << std::endl;
       return false;
