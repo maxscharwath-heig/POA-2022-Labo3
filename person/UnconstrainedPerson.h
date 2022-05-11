@@ -12,17 +12,17 @@
  */
 class UnconstrainedPerson : public Person {
 public:
-    /**
-     * Creates a new unconstrained person
-     * @param name person's name
-     */
-    explicit UnconstrainedPerson(const std::string& name);
+   /**
+    * Creates a new unconstrained person
+    * @param name person's name
+    */
+   explicit UnconstrainedPerson(const std::string& name);
 
-    bool canDrive() const override;
+   bool canDrive() const override;
 
-    bool checkConstraint(const std::list<const Person*>& context) const override;
+   bool checkConstraint(const std::list<const Person*>& context) const override;
 
-    std::ostream& printErrorMessageToStream(std::ostream& os) const override;
+   std::ostream& printErrorMessageToStream(std::ostream& os) const override;
 };
 
 

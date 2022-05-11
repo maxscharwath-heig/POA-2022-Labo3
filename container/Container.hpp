@@ -24,72 +24,82 @@ std::ostream& operator<<(std::ostream& os, const Container& container);
  */
 class Container {
 public:
-    virtual ~Container() = default;
+   virtual ~Container() = default;
 
-    /**
-     * Display the container and its content
-     * @param os output stream
-     * @return modified output stream
-     */
-    virtual std::ostream& toStream(std::ostream& os) const = 0;
+   /**
+    * Copy constructor is deleted
+    */
+   Container(const Container&) = delete;
 
-    /**
-     * Add a person to the container
-     * @param person person to add
-     * @return true if the person has been added, else false
-     */
-    virtual bool add(const Person* person);
+   /**
+    * Assign operator is deleted
+    */
+   Container& operator=(const Container&) = delete;
 
-    /**
-     * Add an initializer list of person to the container
-     * @param person initializer list of person to add
-     */
-    virtual void add(std::initializer_list<const Person*> people);
+   /**
+    * Display the container and its content
+    * @param os output stream
+    * @return modified output stream
+    */
+   virtual std::ostream& toStream(std::ostream& os) const = 0;
 
-    /**
-     * Add a list of person to the container
-     * @param person list of person to add
-     */
-    virtual void add(const std::list<const Person*>& people);
+   /**
+    * Add a person to the container
+    * @param person person to add
+    * @return true if the person has been added, else false
+    */
+   virtual bool add(const Person* person);
 
-    /**
-     * Remove a person from the container
-     *
-     * No effect if the person is not in the container
-     * @param person person to remove
-     */
-    virtual void remove(const Person* person);
+   /**
+    * Add an initializer list of person to the container
+    * @param person initializer list of person to add
+    */
+   virtual void add(std::initializer_list<const Person*> people);
 
-    /**
-     * Empty the container
-     */
-    virtual void clear();
+   /**
+    * Add a list of person to the container
+    * @param person list of person to add
+    */
+   virtual void add(const std::list<const Person*>& people);
 
-    /**
-     * Get the people in container
-     * @return list of people in container
-     */
-    const std::list<const Person*>& getPeople() const;
+   /**
+    * Remove a person from the container
+    *
+    * No effect if the person is not in the container
+    * @param person person to remove
+    */
+   virtual void remove(const Person* person);
 
-    /**
-     * Get the container's name
-     * @return container's name
-     */
-    const std::string& getName() const;
+   /**
+    * Empty the container
+    */
+   virtual void clear();
+
+   /**
+    * Get the people in container
+    * @return list of people in container
+    */
+   const std::list<const Person*>& getPeople() const;
+
+   /**
+    * Get the container's name
+    * @return container's name
+    */
+   const std::string& getName() const;
 
 protected:
-    /**
-     * Created a new container
-     * @param name container's name
-     */
-    explicit Container(const std::string& name);
+   /**
+    * Created a new container
+    * @param name container's name
+    */
+   explicit Container(const std::string& name);
 
-    const std::string _name;
+   const std::string _name;
 
-    std::list<const Person*> _onBoard;
+   std::list<const Person*> _onBoard;
 
 private:
-    bool isAlreadyOnBoard(const Person* p) const;
+   bool isAlreadyOnBoard(const Person* p) const;
 };
 
 

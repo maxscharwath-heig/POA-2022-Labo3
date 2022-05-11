@@ -13,14 +13,13 @@
  */
 class Bank : public Container {
 public:
-    /**
-     * Creates a new river bank
-     * @param name name of the bank
-     */
-    explicit Bank(const std::string& name);
+   /**
+    * Creates a new river bank
+    * @param name name of the bank
+    */
+   explicit Bank(const std::string& name);
 
-    std::ostream& toStream(std::ostream& os) const override;
+   std::ostream& toStream(std::ostream& os) const override;
 };
-
 
 #endif //POA_LABO3_BANK_HPP
