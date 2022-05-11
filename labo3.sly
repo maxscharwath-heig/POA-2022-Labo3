@@ -145,6 +145,7 @@
         <variable const="false" name="to" type="Container*"/>
         <variable const="false" name="name" type="const_string&amp;"/>
       </method>
+      <method isAbstract="false" isStatic="false" name="validateBoatMove" returnType="bool" view="DEFAULT" visibility="PUBLIC"/>
     </entity>
     <entity entityType="CLASS" id="4" isAbstract="false" name="Bank" visibility="PUBLIC">
       <method is-constructor="true" isAbstract="false" isStatic="false" name="Bank" returnType="" view="DEFAULT" visibility="PUBLIC">
@@ -747,7 +748,7 @@
         <x>1090</x>
         <y>740</y>
         <w>490</w>
-        <h>205</h>
+        <h>220</h>
       </geometry>
     </componentView>
     <note color="-2079" content="copy constructor &amp; operator = are deleted">
