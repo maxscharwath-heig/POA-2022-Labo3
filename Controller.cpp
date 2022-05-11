@@ -155,15 +155,13 @@ void Controller::reset() {
 
 void Controller::start() {
     showMenu();
-    bool continueGame;
     do { //main game loop
         if (rightBank->getPeople().size() == persons.size()) {
             std::cout << "Vous avez reussi en " << turn << " coups !" << std::endl;
             break;
         }
         display();
-        continueGame = getInput();
-    } while (continueGame);
+    } while (getInput());
 }
 
 bool Controller::validatePersonMove(Container* from, Container* to,

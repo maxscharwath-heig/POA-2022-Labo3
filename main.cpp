@@ -12,7 +12,7 @@
  * @date 10.05.2022
  */
 
-#define RUN_TESTS true // Change here to run tests
+#define RUN_TESTS false // Change here to run tests
 
 void tests() {
     std::cout << "TESTS" << std::endl;
