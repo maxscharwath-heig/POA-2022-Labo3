@@ -1,6 +1,6 @@
 #include <algorithm>
-#include "ConstrainedPerson.h"
-#include "../Constants.h"
+#include "ConstrainedPerson.hpp"
+#include "../Constants.hpp"
 
 ConstrainedPerson::ConstrainedPerson(const std::string& name) : Person(name),
                                                                 _shouldBeWith(

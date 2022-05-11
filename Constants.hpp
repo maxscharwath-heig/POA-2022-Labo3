@@ -1,5 +1,5 @@
-#ifndef POA_LABO3_CONSTANTS_H
-#define POA_LABO3_CONSTANTS_H
+#ifndef POA_LABO3_CONSTANTS_HPP
+#define POA_LABO3_CONSTANTS_HPP
 
 /**
  * Define some constants used for the game
@@ -23,4 +23,4 @@ const static char RIVER_CHAR = '=';
 const static char BANK_CHAR = '-';
 const static std::string ERROR_PREFIX = "### ";
 
-#endif //POA_LABO3_CONSTANTS_H
+#endif //POA_LABO3_CONSTANTS_HPP

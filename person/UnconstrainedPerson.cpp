@@ -1,4 +1,4 @@
-#include "UnconstrainedPerson.h"
+#include "UnconstrainedPerson.hpp"
 
 UnconstrainedPerson::UnconstrainedPerson(const std::string& name) : Person(name) {}
 

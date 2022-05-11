@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Controller.hpp"
-#include "person/ConstrainedPerson.h"
-#include "person/UnconstrainedPerson.h"
+#include "person/ConstrainedPerson.hpp"
+#include "person/UnconstrainedPerson.hpp"
 
 /**
  * Main entry for the river game

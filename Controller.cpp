@@ -3,9 +3,9 @@
 #include <algorithm>
 #include <iomanip>
 #include "Controller.hpp"
-#include "person/UnconstrainedPerson.h"
-#include "person/ConstrainedPerson.h"
-#include "Constants.h"
+#include "person/UnconstrainedPerson.hpp"
+#include "person/ConstrainedPerson.hpp"
+#include "Constants.hpp"
 
 Controller::Controller() {
    _leftBank = new Bank("Gauche");

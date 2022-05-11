@@ -1,7 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include "Boat.hpp"
-#include "../Constants.h"
+#include "../Constants.hpp"
 
 const unsigned Boat::MAX_CAPACITY = 2;
 
