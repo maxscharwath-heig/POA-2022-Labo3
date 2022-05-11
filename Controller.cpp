@@ -53,7 +53,8 @@ void Controller::showMenu() {
               << std::setw(MENU_GAP) << std::left << "r" << ": reinitialiser"
               << std::endl
               << std::setw(MENU_GAP) << std::left << "q" << ": quitter" << std::endl
-              << std::setw(MENU_GAP) << std::left << "h" << ": menu" << std::endl;
+              << std::setw(MENU_GAP) << std::left << "h" << ": menu" << std::endl
+              << std::setw(0) << std::setfill(' ') << std::right;
 }
 
 void Controller::display() {
@@ -71,6 +72,8 @@ void Controller::display() {
     }
 
     std::cout << std::endl << *rightBank << turn << ">\t";
+
+    std::cout << std::setw(0) << std::setfill(' ') << std::right;
 }
 
 void Controller::nextTurn() {
@@ -130,10 +133,10 @@ bool Controller::getInput() {
                 break;
 
             default:
-                std::cout << ERROR_PREFIX<< "Commande introuvable" << std::endl;
+                std::cout << ERROR_PREFIX << "Commande introuvable" << std::endl;
         }
     } else {
-        std::cout << ERROR_PREFIX<< " Format de commande invalide" << std::endl;
+        std::cout << ERROR_PREFIX << " Format de commande invalide" << std::endl;
     }
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -176,7 +179,7 @@ bool Controller::validatePersonMove(Container* from, Container* to,
                                  });
 
     if (personIt == persons.end()) {
-        std::cout << ERROR_PREFIX<< " Personne specifiee invalide" << std::endl;
+        std::cout << ERROR_PREFIX << " Personne specifiee invalide" << std::endl;
         return false;
     }
 
@@ -225,7 +228,7 @@ bool Controller::validatePersonMove(Container* from, Container* to,
 
 bool Controller::validateBoatMove() {
     if (!boat->hasDriver()) {
-        std::cout << ERROR_PREFIX<< " Le bateau n'a pas de conducteur" << std::endl;
+        std::cout << ERROR_PREFIX << " Le bateau n'a pas de conducteur" << std::endl;
         return false;
     }
 
